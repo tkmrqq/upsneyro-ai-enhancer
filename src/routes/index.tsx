@@ -188,7 +188,7 @@ function Header() {
             <a
               key={n.href}
               href={n.href}
-              className="text-sm text-secondary transition-colors hover:text-white"
+              className="text-sm text-dim transition-colors hover:text-white"
             >
               {n.label}
             </a>
@@ -197,7 +197,7 @@ function Header() {
             href={GITHUB_REPO}
             target="_blank"
             rel="noreferrer"
-            className="text-sm text-secondary transition-colors hover:text-white"
+            className="text-sm text-dim transition-colors hover:text-white"
           >
             GitHub
           </a>
@@ -227,7 +227,7 @@ function Hero() {
 
       <div className="relative mx-auto max-w-6xl px-5 pt-20 pb-16 md:pt-28 md:pb-24">
         <div className="mx-auto max-w-3xl text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#2f2f36] bg-[#25252b] px-3 py-1 text-xs text-secondary">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#2f2f36] bg-[#25252b] px-3 py-1 text-xs text-dim">
             <span className="h-1.5 w-1.5 rounded-full bg-[#ffa14f]" />
             v0.2.0 · Open-source · Windows 10/11
           </div>
@@ -237,7 +237,7 @@ function Hero() {
             <span className="gradient-text">нейросетями</span> — локально, на вашем ПК
           </h1>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base text-secondary md:text-lg">
+          <p className="mx-auto mt-6 max-w-2xl text-base text-dim md:text-lg">
             UpsNeyro — десктопное приложение для Windows: увеличение разрешения,
             улучшение деталей и цветокоррекция. Без облака: видео обрабатывается на
             вашем компьютере (CPU/GPU).
@@ -264,13 +264,13 @@ function Hero() {
             </a>
             <a
               href="#install"
-              className="inline-flex items-center gap-1 px-3 py-3 text-sm text-secondary transition-colors hover:text-white"
+              className="inline-flex items-center gap-1 px-3 py-3 text-sm text-dim transition-colors hover:text-white"
             >
               Как установить <ArrowRight className="h-4 w-4" />
             </a>
           </div>
 
-          <ul className="mx-auto mt-10 grid max-w-2xl gap-3 text-sm text-secondary sm:grid-cols-3">
+          <ul className="mx-auto mt-10 grid max-w-2xl gap-3 text-sm text-dim sm:grid-cols-3">
             {[
               "Три режима: Fast / Balanced / Quality",
               "Превью кадра за секунды + экспорт в MP4",
@@ -304,12 +304,12 @@ function MockAppWindow() {
             <span className="h-3 w-3 rounded-full bg-[#3a3a42]" />
             <span className="h-3 w-3 rounded-full bg-[#3a3a42]" />
           </div>
-          <div className="ml-3 text-xs text-secondary">UpsNeyro — AI Video Enhancer</div>
+          <div className="ml-3 text-xs text-dim">UpsNeyro — AI Video Enhancer</div>
         </div>
         <div className="grid grid-cols-12 gap-0">
           {/* Sidebar */}
           <aside className="col-span-3 hidden border-r border-[#2f2f36] p-4 md:block">
-            <div className="mb-4 text-xs uppercase tracking-wider text-secondary">
+            <div className="mb-4 text-xs uppercase tracking-wider text-dim">
               Проекты
             </div>
             <ul className="space-y-1 text-sm">
@@ -319,17 +319,17 @@ function MockAppWindow() {
                   className={`flex items-center gap-2 rounded-md px-2 py-1.5 ${
                     i === 0
                       ? "bg-[#ffa14f]/10 text-white"
-                      : "text-secondary hover:bg-[#2f2f36]/50"
+                      : "text-dim hover:bg-[#2f2f36]/50"
                   }`}
                 >
                   <Play className="h-3 w-3" /> {f}
                 </li>
               ))}
             </ul>
-            <div className="mt-6 text-xs uppercase tracking-wider text-secondary">
+            <div className="mt-6 text-xs uppercase tracking-wider text-dim">
               Очередь
             </div>
-            <div className="mt-2 space-y-2 text-xs text-secondary">
+            <div className="mt-2 space-y-2 text-xs text-dim">
               <QueueItem name="clip_01" pct={62} />
               <QueueItem name="shot_02" pct={12} />
               <QueueItem name="raw_final" pct={0} />
@@ -353,7 +353,7 @@ function MockAppWindow() {
                 <div className="h-1 flex-1 overflow-hidden rounded-full bg-[#2f2f36]">
                   <div className="h-full w-2/5 rounded-full btn-accent" />
                 </div>
-                <span className="text-xs text-secondary">00:42 / 01:48</span>
+                <span className="text-xs text-dim">00:42 / 01:48</span>
               </div>
               <div className="absolute left-4 top-4 rounded-md border border-[#2f2f36] bg-[#1c1c1f]/70 px-2 py-1 text-xs backdrop-blur">
                 4K · Quality
@@ -366,7 +366,7 @@ function MockAppWindow() {
 
           {/* Right panel */}
           <aside className="col-span-12 border-t border-[#2f2f36] p-4 md:col-span-3 md:border-l md:border-t-0">
-            <div className="text-xs uppercase tracking-wider text-secondary">
+            <div className="text-xs uppercase tracking-wider text-dim">
               Upscale
             </div>
             <div className="mt-2 grid grid-cols-3 gap-1 text-[11px]">
@@ -376,14 +376,14 @@ function MockAppWindow() {
                   className={`min-w-0 truncate rounded-md border px-1.5 py-1.5 ${
                     i === 2
                       ? "border-[#ffa14f] bg-[#ffa14f]/10 text-white"
-                      : "border-[#2f2f36] text-secondary"
+                      : "border-[#2f2f36] text-dim"
                   }`}
                 >
                   {m}
                 </button>
               ))}
             </div>
-            <div className="mt-4 text-xs uppercase tracking-wider text-secondary">
+            <div className="mt-4 text-xs uppercase tracking-wider text-dim">
               Разрешение
             </div>
             <div className="mt-2 grid grid-cols-2 gap-1 text-xs">
@@ -393,7 +393,7 @@ function MockAppWindow() {
                   className={`rounded-md border px-2 py-1.5 ${
                     i === 1
                       ? "border-[#ffa14f] bg-[#ffa14f]/10 text-white"
-                      : "border-[#2f2f36] text-secondary"
+                      : "border-[#2f2f36] text-dim"
                   }`}
                 >
                   {r}
@@ -435,7 +435,7 @@ function QueueItem({ name, pct }: { name: string; pct: number }) {
 function Slider({ label, value }: { label: string; value: number }) {
   return (
     <div>
-      <div className="flex justify-between text-secondary">
+      <div className="flex justify-between text-dim">
         <span>{label}</span>
         <span>{value}</span>
       </div>
@@ -464,7 +464,7 @@ function SectionTitle({
         {eyebrow}
       </div>
       <h2 className="text-3xl font-black tracking-tight md:text-4xl">{title}</h2>
-      {desc && <p className="mt-4 text-secondary">{desc}</p>}
+      {desc && <p className="mt-4 text-dim">{desc}</p>}
     </div>
   );
 }
@@ -488,7 +488,7 @@ function Features() {
                 <f.icon className="h-5 w-5" />
               </div>
               <h3 className="text-lg font-semibold">{f.title}</h3>
-              <ul className="mt-3 space-y-1.5 text-sm text-secondary">
+              <ul className="mt-3 space-y-1.5 text-sm text-dim">
                 {f.points.map((p) => (
                   <li key={p} className="flex gap-2">
                     <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[#ffa14f]" />
@@ -517,7 +517,7 @@ function HowItWorks() {
             <div key={s.n} className="panel relative p-6">
               <div className="mb-4 text-3xl font-black gradient-text">{s.n}</div>
               <h3 className="font-semibold">{s.title}</h3>
-              <p className="mt-2 text-sm text-secondary">{s.text}</p>
+              <p className="mt-2 text-sm text-dim">{s.text}</p>
               {i < steps.length - 1 && (
                 <ArrowRight className="absolute -right-3 top-1/2 hidden h-5 w-5 -translate-y-1/2 text-[#2f2f36] md:block" />
               )}
@@ -527,7 +527,7 @@ function HowItWorks() {
 
         {/* Architecture diagram */}
         <div className="panel mt-10 p-6 md:p-8">
-          <div className="mb-4 text-xs uppercase tracking-wider text-secondary">
+          <div className="mb-4 text-xs uppercase tracking-wider text-dim">
             Архитектура пайплайна
           </div>
           <div className="flex flex-col items-stretch gap-3 md:flex-row md:items-center">
@@ -540,7 +540,7 @@ function HowItWorks() {
               <Node label="Python Real-ESRGAN (shared memory)" />
             </div>
           </div>
-          <p className="mt-6 flex items-center gap-2 text-sm text-secondary">
+          <p className="mt-6 flex items-center gap-2 text-sm text-dim">
             <ShieldCheck className="h-4 w-4 text-[#ffa14f]" />
             Обработка полностью локальна. Видео не загружается никуда.
           </p>
@@ -556,7 +556,7 @@ function Node({ label, highlight }: { label: string; highlight?: boolean }) {
       className={`flex-1 rounded-lg border px-4 py-3 text-center text-sm ${
         highlight
           ? "border-[#ffa14f]/50 bg-[#ffa14f]/10 text-white"
-          : "border-[#2f2f36] bg-[#1c1c1f] text-secondary"
+          : "border-[#2f2f36] bg-[#1c1c1f] text-dim"
       }`}
     >
       {label}
@@ -650,7 +650,7 @@ function TechStack() {
           </div>
           <div className="panel flex flex-col justify-between p-6">
             <div>
-              <div className="mb-3 flex items-center gap-2 text-sm text-secondary">
+              <div className="mb-3 flex items-center gap-2 text-sm text-dim">
                 <Cpu className="h-4 w-4 text-[#ffa14f]" /> Ключевые технологии
               </div>
               <div className="flex flex-wrap gap-2">
@@ -664,7 +664,7 @@ function TechStack() {
                 ))}
               </div>
             </div>
-            <p className="mt-6 text-sm text-secondary">
+            <p className="mt-6 text-sm text-dim">
               Портативный релиз: приложение поставляется как папка с exe, DLL,
               ai_engine и локальным Python-окружением. Никаких инсталляторов и
               облачных зависимостей.
@@ -679,7 +679,7 @@ function TechStack() {
 function StackRow({ label, value }: { label: string; value: string }) {
   return (
     <li className="grid grid-cols-[7rem_1fr] gap-3 border-b border-[#2f2f36] pb-3 last:border-0 last:pb-0">
-      <span className="text-secondary">{label}</span>
+      <span className="text-dim">{label}</span>
       <span>{value}</span>
     </li>
   );
@@ -693,7 +693,7 @@ function SystemRequirements() {
         <div className="grid gap-4 md:grid-cols-2">
           <div className="panel p-6">
             <h3 className="mb-4 font-semibold">Минимум</h3>
-            <ul className="space-y-2 text-sm text-secondary">
+            <ul className="space-y-2 text-sm text-dim">
               <ReqRow text="Windows 10/11 x64" />
               <ReqRow text="8 GB RAM" />
               <ReqRow text="Visual C++ Redistributable 2015–2022 (x64)" />
@@ -701,14 +701,14 @@ function SystemRequirements() {
           </div>
           <div className="panel p-6">
             <h3 className="mb-4 font-semibold">Рекомендуется</h3>
-            <ul className="space-y-2 text-sm text-secondary">
+            <ul className="space-y-2 text-sm text-dim">
               <ReqRow text="NVIDIA GPU + актуальный драйвер" />
               <ReqRow text="16 GB RAM" />
               <ReqRow text="~4 GB свободного места (PyTorch и зависимости)" />
             </ul>
           </div>
         </div>
-        <div className="panel mt-4 flex gap-3 p-5 text-sm text-secondary">
+        <div className="panel mt-4 flex gap-3 p-5 text-sm text-dim">
           <AlertTriangle className="h-5 w-5 shrink-0 text-[#ffa14f]" />
           <p>
             Первый запуск требует однократного{" "}
@@ -772,7 +772,7 @@ function Install() {
         </ol>
         <div className="panel mt-4 flex gap-3 border-[#ffa14f]/30 bg-[#ffa14f]/5 p-5 text-sm">
           <AlertTriangle className="h-5 w-5 shrink-0 text-[#ffa14f]" />
-          <p className="text-secondary">
+          <p className="text-dim">
             Не переносите один <code className="rounded bg-[#1c1c1f] px-1.5 py-0.5 text-xs text-white">exe</code>{" "}
             без Qt DLL, <code className="rounded bg-[#1c1c1f] px-1.5 py-0.5 text-xs text-white">ai_engine</code> и{" "}
             <code className="rounded bg-[#1c1c1f] px-1.5 py-0.5 text-xs text-white">python</code>. Приложение работает только целиком.
@@ -826,7 +826,7 @@ function FAQ() {
                   />
                 </button>
                 {isOpen && (
-                  <div className="border-t border-[#2f2f36] px-5 py-4 text-sm text-secondary">
+                  <div className="border-t border-[#2f2f36] px-5 py-4 text-sm text-dim">
                     {f.a}
                   </div>
                 )}
@@ -847,7 +847,7 @@ function ProjectContext() {
           <div className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#ffa14f]">
             Дипломный проект
           </div>
-          <p className="text-sm text-secondary">
+          <p className="text-sm text-dim">
             UpsNeyro разработан как открытый дипломный проект.
             Автор: <span className="text-white">takamaro</span>.
           </p>
@@ -868,7 +868,7 @@ function Footer() {
             </div>
             <span className="text-lg font-bold">UpsNeyro</span>
           </div>
-          <p className="mt-3 max-w-sm text-sm text-secondary">
+          <p className="mt-3 max-w-sm text-sm text-dim">
             AI Video Enhancer для Windows. Локальный апскейл и улучшение видео на
             базе Real-ESRGAN.
           </p>
@@ -879,7 +879,7 @@ function Footer() {
         </div>
         <div>
           <div className="mb-3 text-sm font-semibold">Проект</div>
-          <ul className="space-y-2 text-sm text-secondary">
+          <ul className="space-y-2 text-sm text-dim">
             <li>
               <a href={GITHUB_REPO} target="_blank" rel="noreferrer" className="hover:text-white">
                 GitHub
@@ -899,14 +899,14 @@ function Footer() {
         </div>
         <div>
           <div className="mb-3 text-sm font-semibold">Инфо</div>
-          <ul className="space-y-2 text-sm text-secondary">
+          <ul className="space-y-2 text-sm text-dim">
             <li>License: MIT</li>
             <li>Автор: takamaro</li>
             <li>Windows 10/11 x64</li>
           </ul>
         </div>
       </div>
-      <div className="mx-auto mt-10 max-w-6xl border-t border-[#2f2f36] px-5 pt-6 text-xs text-secondary">
+      <div className="mx-auto mt-10 max-w-6xl border-t border-[#2f2f36] px-5 pt-6 text-xs text-dim">
         © {new Date().getFullYear()} UpsNeyro. Open-source diploma project.
       </div>
     </footer>
