@@ -369,11 +369,11 @@ function MockAppWindow() {
             <div className="text-xs uppercase tracking-wider text-secondary">
               Upscale
             </div>
-            <div className="mt-2 grid grid-cols-3 gap-1 text-xs">
+            <div className="mt-2 grid grid-cols-3 gap-1 text-[11px]">
               {["Fast", "Balanced", "Quality"].map((m, i) => (
                 <button
                   key={m}
-                  className={`rounded-md border px-2 py-1.5 ${
+                  className={`min-w-0 truncate rounded-md border px-1.5 py-1.5 ${
                     i === 2
                       ? "border-[#ffa14f] bg-[#ffa14f]/10 text-white"
                       : "border-[#2f2f36] text-secondary"
