@@ -167,6 +167,102 @@ function Header() {
 
 /* ────────────────────────────── Hero ────────────────────────────── */
 
+/* Interactive headline — потыкай слова */
+const SCRAMBLE_CHARS = "АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ█▓▒░@#*/\\<>";
+const NEURO_CYCLE = ["нейросетями", "Real-ESRGAN", "магией", "ИИ", "AI"];
+
+function ScrambleWord({
+  text,
+  className = "",
+  cycle,
+}: {
+  text: string;
+  className?: string;
+  cycle?: string[];
+}) {
+  const [display, setDisplay] = useState(text);
+  const [idx, setIdx] = useState(0);
+  const [hover, setHover] = useState(false);
+  const raf = useRef<number | null>(null);
+
+  const scrambleTo = (target: string) => {
+    if (raf.current) window.clearInterval(raf.current);
+    const steps = 14;
+    let i = 0;
+    raf.current = window.setInterval(() => {
+      i++;
+      const revealed = Math.floor((i / steps) * target.length);
+      const scrambled = target
+        .split("")
+        .map((ch, k) => {
+          if (k < revealed || ch === " " || ch === "-") return ch;
+          return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+        })
+        .join("");
+      setDisplay(scrambled);
+      if (i >= steps) {
+        window.clearInterval(raf.current!);
+        raf.current = null;
+        setDisplay(target);
+      }
+    }, 28);
+  };
+
+  useEffect(() => () => { if (raf.current) window.clearInterval(raf.current); }, []);
+
+  const onClick = () => {
+    if (cycle && cycle.length) {
+      const next = (idx + 1) % cycle.length;
+      setIdx(next);
+      scrambleTo(cycle[next]);
+    } else {
+      scrambleTo(text);
+    }
+  };
+
+  return (
+    <span
+      onClick={onClick}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      className={`hero-word inline-block cursor-pointer select-none transition-transform duration-300 ${hover ? "-translate-y-[2px]" : ""} ${className}`}
+      style={{ willChange: "transform" }}
+    >
+      {display}
+    </span>
+  );
+}
+
+function InteractiveHeadline() {
+  const [hinted, setHinted] = useState(false);
+  return (
+    <div className="relative">
+      <h1 className="font-display text-[13vw] leading-[0.92] tracking-tight md:text-[104px]">
+        <ScrambleWord text="Улучшение" />{" "}
+        <ScrambleWord text="видео" />{" "}
+        <span onClick={() => setHinted(true)} className="inline-block">
+          <ScrambleWord
+            text="нейросетями"
+            cycle={NEURO_CYCLE}
+            className="italic text-ember"
+          />
+        </span>
+        ,
+        <br />
+        <ScrambleWord text="локально" /> —{" "}
+        <ScrambleWord text="на" /> <ScrambleWord text="вашем" />&nbsp;
+        <ScrambleWord text="ПК." />
+      </h1>
+      <div
+        className={`eyebrow mt-4 flex items-center gap-2 transition-opacity duration-500 ${hinted ? "opacity-0" : "opacity-100"}`}
+      >
+        <span className="inline-block h-1.5 w-1.5 rounded-full bg-ember animate-pulse" />
+        Потыкай слова — особенно оранжевое
+      </div>
+    </div>
+  );
+}
+
 function Hero() {
   return (
     <section id="top" className="relative overflow-hidden">
