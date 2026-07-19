@@ -1,21 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
+  ArrowUpRight,
   Download,
   Github,
-  Sparkles,
-  Zap,
-  SlidersHorizontal,
-  ListVideo,
-  Gauge,
-  Settings2,
-  Play,
-  MonitorPlay,
   ChevronDown,
   AlertTriangle,
-  Cpu,
-  ShieldCheck,
-  ArrowRight,
 } from "lucide-react";
 
 const GITHUB_REPO = "https://github.com/tkmrqq/UpsNeyro";
@@ -44,161 +34,121 @@ export const Route = createFileRoute("/")({
 
 const features = [
   {
-    icon: Sparkles,
+    num: "01",
     title: "AI Upscale",
-    points: [
-      "Real-ESRGAN через Python + PyTorch",
-      "Режимы: Fast (animevideov3), Balanced (x4plus), Quality (x4plus-anime)",
-      "Целевые разрешения: 1080p, 4K и др.",
-    ],
+    kicker: "Real-ESRGAN · PyTorch",
+    body: "Три режима: Fast (animevideov3), Balanced (x4plus), Quality (x4plus-anime). Целевые разрешения — 1080p, 4K и произвольные.",
   },
   {
-    icon: Zap,
+    num: "02",
     title: "Быстрое превью",
-    points: [
-      "Просмотр результата на одном кадре до полного экспорта",
-      "ncnn-vulkan для превью без запуска полного пайплайна",
-    ],
+    kicker: "ncnn-vulkan",
+    body: "Проверка результата на одном кадре за секунды — без запуска полного пайплайна экспорта.",
   },
   {
-    icon: SlidersHorizontal,
+    num: "03",
     title: "Фильтры и пресеты",
-    points: [
-      "Яркость, контраст, насыщенность, hue, резкость, blur, виньетка, grain",
-      "Готовые пресеты (Vintage и др.)",
-      "Превью фильтров на кадре",
-    ],
+    kicker: "Color · Grain · Grade",
+    body: "Яркость, контраст, насыщенность, hue, резкость, blur, виньетка, grain. Пресеты вроде Vintage. Живое превью на кадре.",
   },
   {
-    icon: ListVideo,
+    num: "04",
     title: "Очередь экспорта",
-    points: [
-      "Пакетная обработка нескольких файлов",
-      "Перестановка, отмена, прогресс по каждой задаче",
-    ],
+    kicker: "Batch",
+    body: "Пакетная обработка, перестановка задач, отмена, независимый прогресс и ETA по каждому файлу.",
   },
   {
-    icon: Gauge,
+    num: "05",
     title: "Производительность",
-    points: [
-      "Монитор этапов: decode → upscale → filter → encode",
-      "Опциональный аппаратный декод (FFmpeg: CUDA / D3D12)",
-      "GPU-инференс через CUDA (PyTorch)",
-    ],
+    kicker: "FFmpeg · CUDA · D3D12",
+    body: "Монитор этапов decode → upscale → filter → encode. Опциональный аппаратный декод. Инференс на GPU через CUDA.",
   },
   {
-    icon: Settings2,
+    num: "06",
     title: "Удобство",
-    points: [
-      "Сохранение сессий и настроек",
-      "Проверка обновлений через GitHub Releases",
-      "Логи и подсказки по железу",
-    ],
+    kicker: "Sessions · Updates",
+    body: "Сохранение сессий и настроек, проверка обновлений через GitHub Releases, логи и подсказки по железу.",
   },
 ];
 
 const steps = [
-  {
-    n: "01",
-    title: "Открыть видео",
-    text: "Drag & drop или выбор файла: MP4, MKV, MOV, WebM и др.",
-  },
-  {
-    n: "02",
-    title: "Выбрать режим и разрешение",
-    text: "Fast / Balanced / Quality + 1080p / 4K",
-  },
-  {
-    n: "03",
-    title: "Превью (опционально)",
-    text: "Посмотреть кадр до полного рендера",
-  },
-  {
-    n: "04",
-    title: "Экспорт",
-    text: "Декод → нейро-апскейл → фильтры → кодирование в MP4",
-  },
+  { n: "I", title: "Открыть видео", text: "Drag & drop или выбор файла: MP4, MKV, MOV, WebM и др." },
+  { n: "II", title: "Режим и разрешение", text: "Fast / Balanced / Quality → 1080p или 4K." },
+  { n: "III", title: "Превью", text: "Опциональная проверка одного кадра до полного рендера." },
+  { n: "IV", title: "Экспорт", text: "Decode → нейро-апскейл → фильтры → encode в MP4." },
 ];
 
 const faqs = [
-  {
-    q: "Это бесплатно?",
-    a: "Да, open-source / дипломный проект. Скачивание с GitHub.",
-  },
-  {
-    q: "Нужен интернет для обработки?",
-    a: "Нет, только для первой установки Python-зависимостей и проверки обновлений.",
-  },
-  {
-    q: "Какие форматы видео поддерживаются?",
-    a: "MP4, MKV, MOV, WebM, AVI и др. — через FFmpeg.",
-  },
-  {
-    q: "Работает без NVIDIA?",
-    a: "Да, на CPU, но медленнее. В настройках можно выбрать CPU.",
-  },
-  {
-    q: "Почему Balanced/Quality медленнее Fast?",
-    a: "Более тяжёлые модели Real-ESRGAN, но заметно выше качество деталей.",
-  },
-  {
-    q: "Можно macOS / Linux?",
-    a: "Сейчас релиз ориентирован на Windows; исходники позволяют собрать на Linux.",
-  },
+  { q: "Это бесплатно?", a: "Да, open-source / дипломный проект. Скачивание с GitHub." },
+  { q: "Нужен интернет для обработки?", a: "Нет, только для первой установки Python-зависимостей и проверки обновлений." },
+  { q: "Какие форматы видео поддерживаются?", a: "MP4, MKV, MOV, WebM, AVI и др. — через FFmpeg." },
+  { q: "Работает без NVIDIA?", a: "Да, на CPU, но медленнее. В настройках можно выбрать CPU." },
+  { q: "Почему Balanced/Quality медленнее Fast?", a: "Более тяжёлые модели Real-ESRGAN, но заметно выше качество деталей." },
+  { q: "Можно macOS / Linux?", a: "Сейчас релиз ориентирован на Windows; исходники позволяют собрать на Linux." },
 ];
 
-const stackBadges = ["Qt 6", "FFmpeg", "PyTorch", "Real-ESRGAN", "CUDA"];
+const stack = [
+  ["UI", "Qt 6, QML, Material dark theme"],
+  ["Media", "FFmpeg (decode/encode, опц. HW-декод)"],
+  ["ML", "Python subprocess, Real-ESRGAN, PyTorch (CUDA/CPU)"],
+  ["Preview upscale", "ncnn-vulkan"],
+  ["Platform", "Windows 10/11 x64 (portable)"],
+];
+
+const tickerItems = [
+  { k: "Model", v: "RealESRGAN_x4plus_anime" },
+  { k: "Backend", v: "PyTorch · CUDA 12.1" },
+  { k: "Frame", v: "01247 / 03120" },
+  { k: "Stage", v: "upscale → filter" },
+  { k: "Throughput", v: "6.4 fps · 3.8× realtime" },
+  { k: "VRAM", v: "5.2 / 12.0 GB" },
+];
 
 function Landing() {
   return (
-    <div className="min-h-screen text-white antialiased">
+    <div className="min-h-screen">
       <Header />
-      <Hero />
-      <Features />
-      <HowItWorks />
-      <Screenshot />
-      <TechStack />
-      <SystemRequirements />
-      <Install />
-      <FAQ />
-      <ProjectContext />
+      <main>
+        <Hero />
+        <Marquee />
+        <Features />
+        <HowItWorks />
+        <TechStack />
+        <SystemRequirements />
+        <Install />
+        <FAQ />
+        <Colophon />
+      </main>
       <Footer />
     </div>
   );
 }
 
+/* ────────────────────────────── Header ────────────────────────────── */
+
 function Header() {
   const nav = [
     { href: "#features", label: "Возможности" },
-    { href: "#how", label: "Как работает" },
+    { href: "#how", label: "Пайплайн" },
     { href: "#install", label: "Установка" },
     { href: "#faq", label: "FAQ" },
   ];
   return (
-    <header className="sticky top-0 z-50 border-b border-[#2f2f36] bg-[#1c1c1f]/80 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
-        <a href="#top" className="flex items-center gap-2">
-          <div className="grid h-8 w-8 place-items-center rounded-lg btn-accent">
-            <MonitorPlay className="h-4 w-4" />
-          </div>
-          <span className="text-lg font-bold tracking-tight">UpsNeyro</span>
+    <header className="sticky top-0 z-50 border-b border-rule bg-paper/85 backdrop-blur-md">
+      <div className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-4">
+        <a href="#top" className="flex items-baseline gap-2">
+          <span className="font-display text-2xl leading-none">UpsNeyro</span>
+          <span className="font-mono text-[10px] uppercase tracking-widest text-dim">
+            v0.2
+          </span>
         </a>
-        <nav className="hidden items-center gap-7 md:flex">
+        <nav className="hidden items-center gap-8 md:flex">
           {nav.map((n) => (
-            <a
-              key={n.href}
-              href={n.href}
-              className="text-sm text-dim transition-colors hover:text-white"
-            >
+            <a key={n.href} href={n.href} className="link-underline text-sm text-soft">
               {n.label}
             </a>
           ))}
-          <a
-            href={GITHUB_REPO}
-            target="_blank"
-            rel="noreferrer"
-            className="text-sm text-dim transition-colors hover:text-white"
-          >
+          <a href={GITHUB_REPO} target="_blank" rel="noreferrer" className="link-underline text-sm text-soft">
             GitHub
           </a>
         </nav>
@@ -206,297 +156,359 @@ function Header() {
           href={GITHUB_RELEASE}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 rounded-lg btn-accent px-4 py-2 text-sm font-semibold"
+          className="inline-flex items-center gap-2 rounded-full btn-ink px-4 py-2 text-xs font-medium"
         >
-          <Download className="h-4 w-4" />
-          <span className="hidden sm:inline">Скачать</span>
+          Скачать <ArrowUpRight className="h-3.5 w-3.5" />
         </a>
       </div>
     </header>
   );
 }
 
+/* ────────────────────────────── Hero ────────────────────────────── */
+
 function Hero() {
   return (
     <section id="top" className="relative overflow-hidden">
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{ background: "var(--gradient-hero)" }}
-      />
-      <div className="pointer-events-none absolute inset-0 grid-bg opacity-40 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,black,transparent_70%)]" />
+      <div className="mx-auto max-w-[1200px] px-6 pt-16 pb-14 md:pt-24 md:pb-20">
+        {/* meta line */}
+        <div className="mb-14 flex items-center justify-between border-b border-rule pb-4">
+          <div className="eyebrow">Vol. 02 · Windows Edition · MMXXVI</div>
+          <div className="eyebrow hidden md:block">Open-source · Diploma project</div>
+        </div>
 
-      <div className="relative mx-auto max-w-6xl px-5 pt-20 pb-16 md:pt-28 md:pb-24">
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#2f2f36] bg-[#25252b] px-3 py-1 text-xs text-dim">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#ffa14f]" />
-            v0.2.0 · Open-source · Windows 10/11
+        {/* headline */}
+        <h1 className="font-display text-[13vw] leading-[0.92] tracking-tight md:text-[104px]">
+          Улучшение видео <em className="italic text-ember">нейросетями</em>,
+          <br />
+          локально — на вашем&nbsp;ПК.
+        </h1>
+
+        {/* dek + CTA */}
+        <div className="mt-14 grid grid-cols-1 gap-10 border-t border-rule pt-10 md:grid-cols-12">
+          <div className="md:col-span-5">
+            <div className="eyebrow mb-3">Аннотация</div>
+            <p className="font-display text-2xl leading-snug md:text-[28px]">
+              UpsNeyro — десктопное приложение для Windows: увеличение разрешения,
+              восстановление деталей и цветокоррекция. Без облака, без загрузки
+              видео в интернет — вся обработка проходит на вашей машине.
+            </p>
           </div>
 
-          <h1 className="text-balance text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl md:text-6xl">
-            Апскейл и улучшение видео{" "}
-            <span className="gradient-text">нейросетями</span> — локально, на вашем ПК
-          </h1>
+          <div className="md:col-span-4 md:col-start-7">
+            <div className="eyebrow mb-3">Ключевое</div>
+            <ul className="space-y-3 text-[15px] text-soft">
+              <li className="flex gap-3 border-b border-rule pb-3">
+                <span className="font-mono text-xs text-ember">01</span>
+                <span>Три модели Real-ESRGAN: Fast, Balanced, Quality.</span>
+              </li>
+              <li className="flex gap-3 border-b border-rule pb-3">
+                <span className="font-mono text-xs text-ember">02</span>
+                <span>Быстрое превью кадра до полного экспорта.</span>
+              </li>
+              <li className="flex gap-3">
+                <span className="font-mono text-xs text-ember">03</span>
+                <span>Очередь пакетной обработки, фильтры, ETA.</span>
+              </li>
+            </ul>
+          </div>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base text-dim md:text-lg">
-            UpsNeyro — десктопное приложение для Windows: увеличение разрешения,
-            улучшение деталей и цветокоррекция. Без облака: видео обрабатывается на
-            вашем компьютере (CPU/GPU).
-          </p>
-
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <div className="md:col-span-2 md:col-start-11 md:pl-6 md:border-l md:border-rule">
+            <div className="eyebrow mb-3">Читать</div>
             <a
               href={GITHUB_RELEASE}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg btn-accent px-6 py-3 text-sm font-semibold"
+              className="group flex items-start gap-2 font-display text-2xl leading-tight"
             >
-              <Download className="h-4 w-4" />
-              Скачать для Windows
+              Скачать
+              <ArrowUpRight className="mt-1 h-5 w-5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </a>
-            <a
-              href={GITHUB_REPO}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg border border-[#2f2f36] bg-[#25252b] px-6 py-3 text-sm font-semibold transition-colors hover:border-[#ffa14f]/40"
-            >
-              <Github className="h-4 w-4" />
-              Исходный код на GitHub
-            </a>
-            <a
-              href="#install"
-              className="inline-flex items-center gap-1 px-3 py-3 text-sm text-dim transition-colors hover:text-white"
-            >
-              Как установить <ArrowRight className="h-4 w-4" />
+            <a href="#install" className="mt-3 block text-xs text-dim link-underline w-fit">
+              Как установить
             </a>
           </div>
-
-          <ul className="mx-auto mt-10 grid max-w-2xl gap-3 text-sm text-dim sm:grid-cols-3">
-            {[
-              "Три режима: Fast / Balanced / Quality",
-              "Превью кадра за секунды + экспорт в MP4",
-              "Очередь задач, фильтры, прогресс и ETA",
-            ].map((t) => (
-              <li
-                key={t}
-                className="rounded-lg border border-[#2f2f36] bg-[#25252b]/60 px-3 py-2"
-              >
-                {t}
-              </li>
-            ))}
-          </ul>
         </div>
 
-        <div className="mt-16">
-          <MockAppWindow />
+        {/* Interactive before/after + live engine ticker */}
+        <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-12">
+          <div className="md:col-span-8">
+            <BeforeAfter />
+          </div>
+          <div className="md:col-span-4">
+            <EngineTicker />
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function MockAppWindow() {
+/* Interactive before/after slider */
+function BeforeAfter() {
+  const [pos, setPos] = useState(52);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const dragging = useRef(false);
+
+  const move = (clientX: number) => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const p = ((clientX - rect.left) / rect.width) * 100;
+    setPos(Math.max(4, Math.min(96, p)));
+  };
+
+  useEffect(() => {
+    const up = () => (dragging.current = false);
+    const mv = (e: MouseEvent) => dragging.current && move(e.clientX);
+    const tmv = (e: TouchEvent) => dragging.current && move(e.touches[0].clientX);
+    window.addEventListener("mouseup", up);
+    window.addEventListener("mousemove", mv);
+    window.addEventListener("touchend", up);
+    window.addEventListener("touchmove", tmv);
+    return () => {
+      window.removeEventListener("mouseup", up);
+      window.removeEventListener("mousemove", mv);
+      window.removeEventListener("touchend", up);
+      window.removeEventListener("touchmove", tmv);
+    };
+  }, []);
+
   return (
-    <div className="mx-auto max-w-5xl">
-      <div className="panel overflow-hidden shadow-2xl">
-        <div className="flex items-center gap-2 border-b border-[#2f2f36] px-4 py-3">
-          <div className="flex gap-1.5">
-            <span className="h-3 w-3 rounded-full bg-[#3a3a42]" />
-            <span className="h-3 w-3 rounded-full bg-[#3a3a42]" />
-            <span className="h-3 w-3 rounded-full bg-[#3a3a42]" />
-          </div>
-          <div className="ml-3 text-xs text-dim">UpsNeyro — AI Video Enhancer</div>
+    <figure>
+      <div className="mb-3 flex items-baseline justify-between">
+        <figcaption className="eyebrow">Figure 1 — Real-ESRGAN · 720p → 4K</figcaption>
+        <div className="font-mono text-[11px] text-dim">← перетащите →</div>
+      </div>
+      <div
+        ref={wrapRef}
+        className="relative aspect-[16/9] w-full cursor-ew-resize overflow-hidden rounded-sm border border-rule select-none"
+        onMouseDown={(e) => {
+          dragging.current = true;
+          move(e.clientX);
+        }}
+        onTouchStart={(e) => {
+          dragging.current = true;
+          move(e.touches[0].clientX);
+        }}
+      >
+        {/* Before (soft, low-detail) */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(circle at 30% 40%, #b8a58a 0%, #7a6a55 40%, #3a3128 100%)",
+            filter: "blur(6px) contrast(0.85) saturate(0.7)",
+          }}
+        />
+        <div
+          className="absolute inset-0 opacity-70"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 60% 55%, rgba(255,220,180,0.55), transparent 45%), radial-gradient(circle at 25% 70%, rgba(60,40,30,0.6), transparent 40%)",
+            filter: "blur(4px)",
+          }}
+        />
+
+        {/* After (sharp, saturated) — clipped */}
+        <div
+          className="absolute inset-0"
+          style={{ clipPath: `inset(0 0 0 ${pos}%)` }}
+        >
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(circle at 30% 40%, #f5d9a8 0%, #c47a3a 40%, #1a1613 100%)",
+            }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 60% 55%, rgba(255,230,190,0.9), transparent 40%), radial-gradient(circle at 25% 70%, rgba(194,65,12,0.55), transparent 40%)",
+            }}
+          />
+          <div
+            className="absolute inset-0 opacity-30"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)",
+              backgroundSize: "22px 22px",
+            }}
+          />
         </div>
-        <div className="grid grid-cols-12 gap-0">
-          {/* Sidebar */}
-          <aside className="col-span-3 hidden border-r border-[#2f2f36] p-4 md:block">
-            <div className="mb-4 text-xs uppercase tracking-wider text-dim">
-              Проекты
-            </div>
-            <ul className="space-y-1 text-sm">
-              {["clip_01.mp4", "shot_02.mkv", "raw_final.mov"].map((f, i) => (
-                <li
-                  key={f}
-                  className={`flex items-center gap-2 rounded-md px-2 py-1.5 ${
-                    i === 0
-                      ? "bg-[#ffa14f]/10 text-white"
-                      : "text-dim hover:bg-[#2f2f36]/50"
-                  }`}
-                >
-                  <Play className="h-3 w-3" /> {f}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-6 text-xs uppercase tracking-wider text-dim">
-              Очередь
-            </div>
-            <div className="mt-2 space-y-2 text-xs text-dim">
-              <QueueItem name="clip_01" pct={62} />
-              <QueueItem name="shot_02" pct={12} />
-              <QueueItem name="raw_final" pct={0} />
-            </div>
-          </aside>
 
-          {/* Preview */}
-          <div className="col-span-12 md:col-span-6">
-            <div className="relative aspect-video overflow-hidden bg-black">
-              <div
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "conic-gradient(from 210deg at 50% 50%, #1c1c1f, #2a1f18, #402615, #ffa14f33, #1c1c1f)",
-                  filter: "blur(4px)",
-                }}
-              />
-              <div className="absolute inset-0 grid-bg opacity-30" />
-              <div className="absolute inset-x-0 bottom-0 flex items-center gap-3 border-t border-[#2f2f36] bg-[#1c1c1f]/80 px-4 py-2 backdrop-blur">
-                <Play className="h-4 w-4 text-[#ffa14f]" />
-                <div className="h-1 flex-1 overflow-hidden rounded-full bg-[#2f2f36]">
-                  <div className="h-full w-2/5 rounded-full btn-accent" />
-                </div>
-                <span className="text-xs text-dim">00:42 / 01:48</span>
-              </div>
-              <div className="absolute left-4 top-4 rounded-md border border-[#2f2f36] bg-[#1c1c1f]/70 px-2 py-1 text-xs backdrop-blur">
-                4K · Quality
-              </div>
-              <div className="absolute right-4 top-4 rounded-md border border-[#ffa14f]/40 bg-[#ffa14f]/10 px-2 py-1 text-xs text-[#ffa14f] backdrop-blur">
-                Preview
-              </div>
-            </div>
+        {/* Labels */}
+        <div className="absolute left-3 top-3 rounded-sm bg-black/50 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-paper">
+          Original · 720p
+        </div>
+        <div className="absolute right-3 top-3 rounded-sm bg-[color:var(--ember)]/90 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-paper">
+          UpsNeyro · 4K
+        </div>
+
+        {/* Handle */}
+        <div
+          className="absolute inset-y-0 w-px bg-paper"
+          style={{ left: `${pos}%` }}
+        >
+          <div className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 grid h-10 w-10 place-items-center rounded-full bg-paper text-ink shadow-[0_2px_18px_rgba(0,0,0,0.35)]">
+            <span className="font-mono text-[10px]">◄ ►</span>
           </div>
-
-          {/* Right panel */}
-          <aside className="col-span-12 border-t border-[#2f2f36] p-4 md:col-span-3 md:border-l md:border-t-0">
-            <div className="text-xs uppercase tracking-wider text-dim">
-              Upscale
-            </div>
-            <div className="mt-2 grid grid-cols-3 gap-1 text-[11px]">
-              {["Fast", "Balanced", "Quality"].map((m, i) => (
-                <button
-                  key={m}
-                  className={`min-w-0 truncate rounded-md border px-1.5 py-1.5 ${
-                    i === 2
-                      ? "border-[#ffa14f] bg-[#ffa14f]/10 text-white"
-                      : "border-[#2f2f36] text-dim"
-                  }`}
-                >
-                  {m}
-                </button>
-              ))}
-            </div>
-            <div className="mt-4 text-xs uppercase tracking-wider text-dim">
-              Разрешение
-            </div>
-            <div className="mt-2 grid grid-cols-2 gap-1 text-xs">
-              {["1080p", "4K"].map((r, i) => (
-                <button
-                  key={r}
-                  className={`rounded-md border px-2 py-1.5 ${
-                    i === 1
-                      ? "border-[#ffa14f] bg-[#ffa14f]/10 text-white"
-                      : "border-[#2f2f36] text-dim"
-                  }`}
-                >
-                  {r}
-                </button>
-              ))}
-            </div>
-            <div className="mt-4 space-y-3 text-xs">
-              <Slider label="Резкость" value={70} />
-              <Slider label="Насыщенность" value={45} />
-              <Slider label="Виньетка" value={20} />
-            </div>
-            <button className="mt-5 w-full rounded-md btn-accent px-3 py-2 text-xs font-semibold">
-              Экспорт в MP4
-            </button>
-          </aside>
         </div>
       </div>
-    </div>
+    </figure>
   );
 }
 
-function QueueItem({ name, pct }: { name: string; pct: number }) {
+/* Live engine ticker */
+function EngineTicker() {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setI((v) => (v + 1) % tickerItems.length), 1800);
+    return () => clearInterval(t);
+  }, []);
   return (
-    <div>
-      <div className="flex justify-between">
-        <span className="truncate">{name}</span>
-        <span>{pct}%</span>
+    <aside className="flex h-full flex-col justify-between rounded-sm border border-rule bg-card2 p-5 grain">
+      <div>
+        <div className="mb-3 flex items-center justify-between">
+          <div className="eyebrow">Live engine</div>
+          <div className="flex items-center gap-1.5">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--ember)] opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[color:var(--ember)]" />
+            </span>
+            <span className="font-mono text-[10px] uppercase tracking-widest text-dim">
+              running
+            </span>
+          </div>
+        </div>
+
+        <div className="min-h-[64px]">
+          <div key={i} style={{ animation: "tickerFade 1.8s ease" }}>
+            <div className="font-mono text-[10px] uppercase tracking-widest text-dim">
+              {tickerItems[i].k}
+            </div>
+            <div className="mt-1 font-display text-2xl leading-tight">
+              {tickerItems[i].v}
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="mt-1 h-1 overflow-hidden rounded-full bg-[#2f2f36]">
+
+      <div className="mt-6 space-y-2 border-t border-rule pt-4">
+        <MicroBar label="decode" pct={100} />
+        <MicroBar label="upscale" pct={72} active />
+        <MicroBar label="filter" pct={12} />
+        <MicroBar label="encode" pct={0} />
+      </div>
+    </aside>
+  );
+}
+
+function MicroBar({ label, pct, active }: { label: string; pct: number; active?: boolean }) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="w-16 font-mono text-[10px] uppercase tracking-widest text-dim">
+        {label}
+      </span>
+      <div className="h-[3px] flex-1 bg-[color:var(--rule)]">
         <div
-          className="h-full rounded-full btn-accent"
-          style={{ width: `${pct}%` }}
+          className="h-full"
+          style={{
+            width: `${pct}%`,
+            background: active ? "var(--ember)" : "var(--ink)",
+          }}
         />
       </div>
+      <span className="w-8 text-right font-mono text-[10px] text-dim">{pct}%</span>
     </div>
   );
 }
 
-function Slider({ label, value }: { label: string; value: number }) {
+/* ────────────────────────────── Marquee ────────────────────────────── */
+
+function Marquee() {
+  const items = [
+    "Real-ESRGAN",
+    "PyTorch",
+    "FFmpeg",
+    "Qt 6",
+    "CUDA",
+    "ncnn-vulkan",
+    "QML",
+    "Python 3.11",
+    "Windows 10/11",
+  ];
+  const track = [...items, ...items];
   return (
-    <div>
-      <div className="flex justify-between text-dim">
-        <span>{label}</span>
-        <span>{value}</span>
+    <section className="overflow-hidden border-y border-rule bg-paper-2">
+      <div className="flex marquee-track">
+        {track.map((t, i) => (
+          <div
+            key={i}
+            className="flex shrink-0 items-center gap-6 whitespace-nowrap px-8 py-4"
+          >
+            <span className="font-display text-3xl">{t}</span>
+            <span className="text-ember">✦</span>
+          </div>
+        ))}
       </div>
-      <div className="mt-1 h-1 overflow-hidden rounded-full bg-[#2f2f36]">
-        <div
-          className="h-full rounded-full btn-accent"
-          style={{ width: `${value}%` }}
-        />
-      </div>
-    </div>
+    </section>
   );
 }
 
-function SectionTitle({
+/* ────────────────────────────── Sections ────────────────────────────── */
+
+function SectionHead({
   eyebrow,
   title,
   desc,
 }: {
   eyebrow: string;
-  title: string;
+  title: React.ReactNode;
   desc?: string;
 }) {
   return (
-    <div className="mx-auto mb-12 max-w-2xl text-center">
-      <div className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#ffa14f]">
-        {eyebrow}
-      </div>
-      <h2 className="text-3xl font-black tracking-tight md:text-4xl">{title}</h2>
-      {desc && <p className="mt-4 text-dim">{desc}</p>}
+    <div className="mb-14 grid grid-cols-1 items-end gap-6 border-b border-rule pb-8 md:grid-cols-12">
+      <div className="md:col-span-2 eyebrow">{eyebrow}</div>
+      <h2 className="font-display text-5xl leading-none tracking-tight md:col-span-7 md:text-[64px]">
+        {title}
+      </h2>
+      {desc && (
+        <p className="text-[15px] text-soft md:col-span-3 md:pl-4 md:border-l md:border-rule">
+          {desc}
+        </p>
+      )}
     </div>
   );
 }
 
 function Features() {
   return (
-    <section id="features" className="border-t border-[#2f2f36] py-20 md:py-28">
-      <div className="mx-auto max-w-6xl px-5">
-        <SectionTitle
-          eyebrow="Возможности"
-          title="Всё для качественного апскейла"
+    <section id="features" className="py-24 md:py-32">
+      <div className="mx-auto max-w-[1200px] px-6">
+        <SectionHead
+          eyebrow="§ Возможности"
+          title={
+            <>
+              Инструменты, а не <em className="italic text-ember">магия</em>.
+            </>
+          }
           desc="Локальная обработка, честные метрики и полный контроль над пайплайном."
         />
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-x-10 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
           {features.map((f) => (
-            <div
-              key={f.title}
-              className="panel group p-6 transition-colors hover:border-[#ffa14f]/40"
-            >
-              <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[#2f2f36] bg-[#1c1c1f] text-[#ffa14f]">
-                <f.icon className="h-5 w-5" />
+            <article key={f.num} className="group">
+              <div className="mb-4 flex items-baseline justify-between border-b border-rule pb-3">
+                <span className="font-mono text-xs text-ember">{f.num}</span>
+                <span className="font-mono text-[10px] uppercase tracking-widest text-dim">
+                  {f.kicker}
+                </span>
               </div>
-              <h3 className="text-lg font-semibold">{f.title}</h3>
-              <ul className="mt-3 space-y-1.5 text-sm text-dim">
-                {f.points.map((p) => (
-                  <li key={p} className="flex gap-2">
-                    <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[#ffa14f]" />
-                    <span>{p}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+              <h3 className="font-display text-3xl leading-tight">{f.title}</h3>
+              <p className="mt-3 text-[15px] text-soft">{f.body}</p>
+            </article>
           ))}
         </div>
       </div>
@@ -506,43 +518,48 @@ function Features() {
 
 function HowItWorks() {
   return (
-    <section id="how" className="border-t border-[#2f2f36] py-20 md:py-28">
-      <div className="mx-auto max-w-6xl px-5">
-        <SectionTitle
-          eyebrow="Как работает"
-          title="Четыре шага от исходника до 4K"
+    <section id="how" className="border-t border-rule bg-paper-2 py-24 md:py-32">
+      <div className="mx-auto max-w-[1200px] px-6">
+        <SectionHead
+          eyebrow="§ Пайплайн"
+          title={
+            <>
+              Четыре шага <em className="italic text-ember">до 4K</em>.
+            </>
+          }
         />
-        <div className="grid gap-4 md:grid-cols-4">
+        <div className="grid grid-cols-1 md:grid-cols-4">
           {steps.map((s, i) => (
-            <div key={s.n} className="panel relative p-6">
-              <div className="mb-4 text-3xl font-black gradient-text">{s.n}</div>
-              <h3 className="font-semibold">{s.title}</h3>
-              <p className="mt-2 text-sm text-dim">{s.text}</p>
-              {i < steps.length - 1 && (
-                <ArrowRight className="absolute -right-3 top-1/2 hidden h-5 w-5 -translate-y-1/2 text-[#2f2f36] md:block" />
-              )}
+            <div
+              key={s.n}
+              className={`p-6 md:p-8 ${
+                i < steps.length - 1 ? "md:border-r border-rule" : ""
+              } ${i > 0 ? "border-t md:border-t-0 border-rule" : ""}`}
+            >
+              <div className="font-display text-6xl text-ember">{s.n}</div>
+              <h3 className="mt-4 font-display text-2xl">{s.title}</h3>
+              <p className="mt-2 text-sm text-soft">{s.text}</p>
             </div>
           ))}
         </div>
 
-        {/* Architecture diagram */}
-        <div className="panel mt-10 p-6 md:p-8">
-          <div className="mb-4 text-xs uppercase tracking-wider text-dim">
-            Архитектура пайплайна
-          </div>
-          <div className="flex flex-col items-stretch gap-3 md:flex-row md:items-center">
+        {/* Architecture */}
+        <div className="mt-16 border-t border-rule pt-10">
+          <div className="eyebrow mb-6">Архитектура</div>
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-5 md:items-center">
             <Node label="Qt QML UI" />
-            <Arrow />
+            <Divider />
             <Node label="PipelineManager" highlight />
-            <Arrow />
-            <div className="flex flex-1 flex-col gap-3">
+            <Divider />
+            <div className="flex flex-col gap-3">
               <Node label="FFmpeg decode/encode" />
-              <Node label="Python Real-ESRGAN (shared memory)" />
+              <Node label="Python Real-ESRGAN" small />
             </div>
           </div>
-          <p className="mt-6 flex items-center gap-2 text-sm text-dim">
-            <ShieldCheck className="h-4 w-4 text-[#ffa14f]" />
-            Обработка полностью локальна. Видео не загружается никуда.
+          <p className="mt-8 max-w-2xl text-[15px] text-soft">
+            <span className="text-ember">✦ </span>
+            Обработка полностью локальна. Видео не покидает ваш компьютер, не
+            уходит в облако и не логируется.
           </p>
         </div>
       </div>
@@ -550,173 +567,89 @@ function HowItWorks() {
   );
 }
 
-function Node({ label, highlight }: { label: string; highlight?: boolean }) {
+function Node({ label, highlight, small }: { label: string; highlight?: boolean; small?: boolean }) {
   return (
     <div
-      className={`flex-1 rounded-lg border px-4 py-3 text-center text-sm ${
+      className={`rounded-sm border px-4 py-4 text-center ${
         highlight
-          ? "border-[#ffa14f]/50 bg-[#ffa14f]/10 text-white"
-          : "border-[#2f2f36] bg-[#1c1c1f] text-dim"
-      }`}
+          ? "border-ink bg-ink text-paper"
+          : "border-rule bg-card2 text-ink"
+      } ${small ? "text-xs" : "font-display text-lg"}`}
     >
       {label}
     </div>
   );
 }
 
-function Arrow() {
+function Divider() {
   return (
-    <div className="flex items-center justify-center text-[#ffa14f]">
-      <ArrowRight className="h-5 w-5 rotate-90 md:rotate-0" />
+    <div className="flex items-center justify-center py-1 text-ember">
+      <span className="font-mono text-lg">→</span>
     </div>
-  );
-}
-
-function Screenshot() {
-  return (
-    <section className="border-t border-[#2f2f36] py-20 md:py-28">
-      <div className="mx-auto max-w-6xl px-5">
-        <SectionTitle
-          eyebrow="Сравнение"
-          title="До и после"
-          desc="Превью кадра позволяет оценить результат за секунды, до полного экспорта."
-        />
-        <div className="panel overflow-hidden">
-          <div className="grid grid-cols-2">
-            <div className="relative aspect-video overflow-hidden">
-              <div
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(135deg,#2a2a30,#1c1c1f)",
-                }}
-              />
-              <div
-                className="absolute inset-0"
-                style={{
-                  backgroundImage:
-                    "radial-gradient(circle at 30% 40%, rgba(120,120,140,0.35), transparent 40%), radial-gradient(circle at 70% 60%, rgba(80,80,100,0.35), transparent 40%)",
-                  filter: "blur(2px) contrast(0.9)",
-                }}
-              />
-              <div className="absolute left-3 top-3 rounded bg-black/60 px-2 py-1 text-xs">
-                Original · 720p
-              </div>
-            </div>
-            <div className="relative aspect-video overflow-hidden border-l border-[#2f2f36]">
-              <div
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(135deg,#3a2a1a,#1c1c1f)",
-                }}
-              />
-              <div
-                className="absolute inset-0"
-                style={{
-                  backgroundImage:
-                    "radial-gradient(circle at 30% 40%, rgba(255,161,79,0.5), transparent 40%), radial-gradient(circle at 70% 60%, rgba(255,145,77,0.35), transparent 40%)",
-                }}
-              />
-              <div className="absolute inset-0 grid-bg opacity-30" />
-              <div className="absolute right-3 top-3 rounded bg-[#ffa14f]/20 px-2 py-1 text-xs text-[#ffa14f] ring-1 ring-[#ffa14f]/40">
-                UpsNeyro · 4K Quality
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
   );
 }
 
 function TechStack() {
   return (
-    <section className="border-t border-[#2f2f36] py-20 md:py-28">
-      <div className="mx-auto max-w-6xl px-5">
-        <SectionTitle eyebrow="Под капотом" title="Технологический стек" />
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="panel p-6">
-            <ul className="space-y-3 text-sm">
-              <StackRow label="UI" value="Qt 6, QML, Material dark theme" />
-              <StackRow label="Media" value="FFmpeg (decode/encode, опц. HW-декод)" />
-              <StackRow
-                label="ML"
-                value="Python subprocess, Real-ESRGAN, PyTorch (CUDA/CPU)"
-              />
-              <StackRow label="Preview upscale" value="ncnn-vulkan" />
-              <StackRow label="Platform" value="Windows 10/11 x64 (portable)" />
-            </ul>
-          </div>
-          <div className="panel flex flex-col justify-between p-6">
-            <div>
-              <div className="mb-3 flex items-center gap-2 text-sm text-dim">
-                <Cpu className="h-4 w-4 text-[#ffa14f]" /> Ключевые технологии
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {stackBadges.map((b) => (
-                  <span
-                    key={b}
-                    className="rounded-full border border-[#2f2f36] bg-[#1c1c1f] px-3 py-1 text-xs"
-                  >
-                    {b}
-                  </span>
-                ))}
-              </div>
+    <section className="py-24 md:py-32">
+      <div className="mx-auto max-w-[1200px] px-6">
+        <SectionHead
+          eyebrow="§ Под капотом"
+          title={
+            <>
+              Технологический <em className="italic text-ember">стек</em>.
+            </>
+          }
+        />
+        <dl className="border-t border-rule">
+          {stack.map(([k, v]) => (
+            <div
+              key={k}
+              className="grid grid-cols-1 border-b border-rule py-6 md:grid-cols-12 md:items-baseline"
+            >
+              <dt className="eyebrow md:col-span-3">{k}</dt>
+              <dd className="font-display text-2xl leading-tight md:col-span-9">
+                {v}
+              </dd>
             </div>
-            <p className="mt-6 text-sm text-dim">
-              Портативный релиз: приложение поставляется как папка с exe, DLL,
-              ai_engine и локальным Python-окружением. Никаких инсталляторов и
-              облачных зависимостей.
-            </p>
-          </div>
-        </div>
+          ))}
+        </dl>
+        <p className="mt-8 max-w-2xl text-[15px] text-soft">
+          Портативный релиз: приложение поставляется как папка с exe, DLL,
+          <span className="font-mono text-[13px]"> ai_engine</span> и локальным
+          Python-окружением. Никаких инсталляторов и облачных зависимостей.
+        </p>
       </div>
     </section>
-  );
-}
-
-function StackRow({ label, value }: { label: string; value: string }) {
-  return (
-    <li className="grid grid-cols-[7rem_1fr] gap-3 border-b border-[#2f2f36] pb-3 last:border-0 last:pb-0">
-      <span className="text-dim">{label}</span>
-      <span>{value}</span>
-    </li>
   );
 }
 
 function SystemRequirements() {
   return (
-    <section className="border-t border-[#2f2f36] py-20 md:py-28">
-      <div className="mx-auto max-w-6xl px-5">
-        <SectionTitle eyebrow="Требования" title="Что нужно для работы" />
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="panel p-6">
-            <h3 className="mb-4 font-semibold">Минимум</h3>
-            <ul className="space-y-2 text-sm text-dim">
-              <ReqRow text="Windows 10/11 x64" />
-              <ReqRow text="8 GB RAM" />
-              <ReqRow text="Visual C++ Redistributable 2015–2022 (x64)" />
-            </ul>
-          </div>
-          <div className="panel p-6">
-            <h3 className="mb-4 font-semibold">Рекомендуется</h3>
-            <ul className="space-y-2 text-sm text-dim">
-              <ReqRow text="NVIDIA GPU + актуальный драйвер" />
-              <ReqRow text="16 GB RAM" />
-              <ReqRow text="~4 GB свободного места (PyTorch и зависимости)" />
-            </ul>
-          </div>
+    <section className="border-t border-rule bg-paper-2 py-24 md:py-32">
+      <div className="mx-auto max-w-[1200px] px-6">
+        <SectionHead
+          eyebrow="§ Требования"
+          title={<>Что нужно для работы.</>}
+        />
+        <div className="grid grid-cols-1 md:grid-cols-2">
+          <ReqBlock
+            label="Минимум"
+            items={["Windows 10/11 x64", "8 GB RAM", "Visual C++ Redistributable 2015–2022 (x64)"]}
+          />
+          <ReqBlock
+            label="Рекомендуется"
+            items={["NVIDIA GPU + актуальный драйвер", "16 GB RAM", "~4 GB свободного места"]}
+            right
+          />
         </div>
-        <div className="panel mt-4 flex gap-3 p-5 text-sm text-dim">
-          <AlertTriangle className="h-5 w-5 shrink-0 text-[#ffa14f]" />
+        <div className="mt-8 flex items-start gap-3 border border-rule bg-card2 p-5 text-sm text-soft">
+          <AlertTriangle className="h-5 w-5 shrink-0 text-ember" />
           <p>
             Первый запуск требует однократного{" "}
-            <code className="rounded bg-[#1c1c1f] px-1.5 py-0.5 text-xs text-white">
-              setup_python.bat
-            </code>{" "}
-            (нужен интернет) для установки PyTorch и пакетов. Превью кадра работает
-            без этого шага.
+            <code className="font-mono text-[13px] text-ink">setup_python.bat</code>{" "}
+            (нужен интернет) для установки PyTorch и пакетов. Превью кадра
+            работает без этого шага.
           </p>
         </div>
       </div>
@@ -724,66 +657,68 @@ function SystemRequirements() {
   );
 }
 
-function ReqRow({ text }: { text: string }) {
+function ReqBlock({ label, items, right }: { label: string; items: string[]; right?: boolean }) {
   return (
-    <li className="flex items-start gap-2">
-      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[#ffa14f]" />
-      <span>{text}</span>
-    </li>
+    <div className={right ? "md:border-l border-rule md:pl-10" : "md:pr-10"}>
+      <div className="eyebrow mb-4">{label}</div>
+      <ul className="divide-y divide-[color:var(--rule)]">
+        {items.map((t) => (
+          <li key={t} className="py-3 font-display text-xl">
+            {t}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
 function Install() {
   const items = [
-    <>
-      Скачать{" "}
-      <code className="rounded bg-[#1c1c1f] px-1.5 py-0.5 text-xs">
-        UpsNeyro2-x.x.x-win64.zip
-      </code>{" "}
-      с GitHub Releases
-    </>,
+    <>Скачать <code className="font-mono text-[13px]">UpsNeyro2-x.x.x-win64.zip</code> с GitHub Releases</>,
     <>Распаковать папку целиком (не только exe)</>,
-    <>
-      Один раз запустить{" "}
-      <code className="rounded bg-[#1c1c1f] px-1.5 py-0.5 text-xs">
-        setup_python.bat
-      </code>
-    </>,
-    <>
-      Запустить{" "}
-      <code className="rounded bg-[#1c1c1f] px-1.5 py-0.5 text-xs">
-        appUpsNeyro2.exe
-      </code>
-    </>,
+    <>Один раз запустить <code className="font-mono text-[13px]">setup_python.bat</code></>,
+    <>Запустить <code className="font-mono text-[13px]">appUpsNeyro2.exe</code></>,
   ];
   return (
-    <section id="install" className="border-t border-[#2f2f36] py-20 md:py-28">
-      <div className="mx-auto max-w-3xl px-5">
-        <SectionTitle eyebrow="Установка" title="Четыре шага до запуска" />
-        <ol className="space-y-3">
+    <section id="install" className="py-24 md:py-32">
+      <div className="mx-auto max-w-[1200px] px-6">
+        <SectionHead
+          eyebrow="§ Установка"
+          title={
+            <>
+              Четыре шага <em className="italic text-ember">до запуска</em>.
+            </>
+          }
+        />
+        <ol className="border-t border-rule">
           {items.map((it, i) => (
-            <li key={i} className="panel flex items-start gap-4 p-5">
-              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-md btn-accent text-sm font-bold">
-                {i + 1}
+            <li
+              key={i}
+              className="grid grid-cols-[auto_1fr] items-baseline gap-6 border-b border-rule py-6"
+            >
+              <span className="font-display text-4xl text-ember tabular-nums">
+                0{i + 1}
               </span>
-              <div className="pt-1 text-sm">{it}</div>
+              <div className="font-display text-2xl">{it}</div>
             </li>
           ))}
         </ol>
-        <div className="panel mt-4 flex gap-3 border-[#ffa14f]/30 bg-[#ffa14f]/5 p-5 text-sm">
-          <AlertTriangle className="h-5 w-5 shrink-0 text-[#ffa14f]" />
-          <p className="text-dim">
-            Не переносите один <code className="rounded bg-[#1c1c1f] px-1.5 py-0.5 text-xs text-white">exe</code>{" "}
-            без Qt DLL, <code className="rounded bg-[#1c1c1f] px-1.5 py-0.5 text-xs text-white">ai_engine</code> и{" "}
-            <code className="rounded bg-[#1c1c1f] px-1.5 py-0.5 text-xs text-white">python</code>. Приложение работает только целиком.
+
+        <div className="mt-8 flex items-start gap-3 border border-rule bg-card2 p-5 text-sm text-soft">
+          <AlertTriangle className="h-5 w-5 shrink-0 text-ember" />
+          <p>
+            Не переносите один <code className="font-mono text-[13px] text-ink">exe</code> без Qt DLL,{" "}
+            <code className="font-mono text-[13px] text-ink">ai_engine</code> и{" "}
+            <code className="font-mono text-[13px] text-ink">python</code>. Приложение работает только целиком.
           </p>
         </div>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
+
+        <div className="mt-10 flex flex-wrap items-center gap-4">
           <a
             href={GITHUB_RELEASE}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg btn-accent px-6 py-3 text-sm font-semibold"
+            className="inline-flex items-center gap-2 rounded-full btn-ink px-6 py-3 text-sm"
           >
             <Download className="h-4 w-4" />
             Скачать релиз
@@ -792,7 +727,7 @@ function Install() {
             href={GITHUB_REPO}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg border border-[#2f2f36] bg-[#25252b] px-6 py-3 text-sm font-semibold hover:border-[#ffa14f]/40"
+            className="inline-flex items-center gap-2 rounded-full btn-ghost px-6 py-3 text-sm"
           >
             <Github className="h-4 w-4" />
             Открыть репозиторий
@@ -806,28 +741,36 @@ function Install() {
 function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section id="faq" className="border-t border-[#2f2f36] py-20 md:py-28">
-      <div className="mx-auto max-w-3xl px-5">
-        <SectionTitle eyebrow="FAQ" title="Частые вопросы" />
-        <div className="space-y-3">
+    <section id="faq" className="border-t border-rule bg-paper-2 py-24 md:py-32">
+      <div className="mx-auto max-w-[1200px] px-6">
+        <SectionHead
+          eyebrow="§ FAQ"
+          title={<>Частые вопросы.</>}
+        />
+        <div className="border-t border-rule">
           {faqs.map((f, i) => {
             const isOpen = open === i;
             return (
-              <div key={f.q} className="panel overflow-hidden">
+              <div key={f.q} className="border-b border-rule">
                 <button
                   onClick={() => setOpen(isOpen ? null : i)}
-                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+                  className="grid w-full grid-cols-[auto_1fr_auto] items-baseline gap-6 py-6 text-left"
                 >
-                  <span className="font-medium">{f.q}</span>
+                  <span className="font-mono text-xs text-ember tabular-nums">
+                    0{i + 1}
+                  </span>
+                  <span className="font-display text-2xl">{f.q}</span>
                   <ChevronDown
-                    className={`h-5 w-5 shrink-0 text-[#ffa14f] transition-transform ${
+                    className={`h-5 w-5 shrink-0 text-ink transition-transform ${
                       isOpen ? "rotate-180" : ""
                     }`}
                   />
                 </button>
                 {isOpen && (
-                  <div className="border-t border-[#2f2f36] px-5 py-4 text-sm text-dim">
-                    {f.a}
+                  <div className="grid grid-cols-[auto_1fr_auto] gap-6 pb-6">
+                    <span />
+                    <p className="max-w-2xl text-[15px] text-soft">{f.a}</p>
+                    <span />
                   </div>
                 )}
               </div>
@@ -839,18 +782,24 @@ function FAQ() {
   );
 }
 
-function ProjectContext() {
+function Colophon() {
   return (
-    <section className="border-t border-[#2f2f36] py-16">
-      <div className="mx-auto max-w-3xl px-5">
-        <div className="panel p-6 text-center">
-          <div className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#ffa14f]">
-            Дипломный проект
-          </div>
-          <p className="text-sm text-dim">
-            UpsNeyro разработан как открытый дипломный проект.
-            Автор: <span className="text-white">takamaro</span>.
+    <section className="py-20">
+      <div className="mx-auto max-w-[1200px] px-6">
+        <div className="grid grid-cols-1 items-end gap-6 border-t border-rule pt-10 md:grid-cols-12">
+          <div className="eyebrow md:col-span-2">Colophon</div>
+          <p className="font-display text-2xl leading-snug md:col-span-7">
+            UpsNeyro — открытый дипломный проект. Набран Instrument Serif и
+            Inter. Собран на Qt 6 и PyTorch. Автор — <em className="italic text-ember">takamaro</em>.
           </p>
+          <a
+            href={GITHUB_REPO}
+            target="_blank"
+            rel="noreferrer"
+            className="link-underline w-fit text-sm text-soft md:col-span-3 md:justify-self-end"
+          >
+            github.com/tkmrqq/UpsNeyro ↗
+          </a>
         </div>
       </div>
     </section>
@@ -859,55 +808,24 @@ function ProjectContext() {
 
 function Footer() {
   return (
-    <footer className="border-t border-[#2f2f36] py-12">
-      <div className="mx-auto grid max-w-6xl gap-8 px-5 md:grid-cols-4">
-        <div className="md:col-span-2">
-          <div className="flex items-center gap-2">
-            <div className="grid h-8 w-8 place-items-center rounded-lg btn-accent">
-              <MonitorPlay className="h-4 w-4" />
-            </div>
-            <span className="text-lg font-bold">UpsNeyro</span>
-          </div>
-          <p className="mt-3 max-w-sm text-sm text-dim">
-            AI Video Enhancer для Windows. Локальный апскейл и улучшение видео на
-            базе Real-ESRGAN.
-          </p>
-          <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#2f2f36] bg-[#25252b] px-3 py-1 text-xs">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#ffa14f]" />
-            v0.2.0
-          </div>
+    <footer className="border-t border-rule bg-paper py-10">
+      <div className="mx-auto flex max-w-[1200px] flex-col items-start justify-between gap-4 px-6 md:flex-row md:items-center">
+        <div className="flex items-baseline gap-3">
+          <span className="font-display text-2xl">UpsNeyro</span>
+          <span className="font-mono text-[10px] uppercase tracking-widest text-dim">
+            © {new Date().getFullYear()} · MIT · Windows 10/11
+          </span>
         </div>
-        <div>
-          <div className="mb-3 text-sm font-semibold">Проект</div>
-          <ul className="space-y-2 text-sm text-dim">
-            <li>
-              <a href={GITHUB_REPO} target="_blank" rel="noreferrer" className="hover:text-white">
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href={GITHUB_RELEASE} target="_blank" rel="noreferrer" className="hover:text-white">
-                Releases / Download
-              </a>
-            </li>
-            <li>
-              <a href="#install" className="hover:text-white">
-                Установка
-              </a>
-            </li>
-          </ul>
+        <div className="flex items-center gap-6 text-sm text-soft">
+          <a href={GITHUB_REPO} target="_blank" rel="noreferrer" className="link-underline">
+            GitHub
+          </a>
+          <a href={GITHUB_RELEASE} target="_blank" rel="noreferrer" className="link-underline">
+            Releases
+          </a>
+          <a href="#install" className="link-underline">Установка</a>
+          <a href="#top" className="link-underline">↑ Наверх</a>
         </div>
-        <div>
-          <div className="mb-3 text-sm font-semibold">Инфо</div>
-          <ul className="space-y-2 text-sm text-dim">
-            <li>License: MIT</li>
-            <li>Автор: takamaro</li>
-            <li>Windows 10/11 x64</li>
-          </ul>
-        </div>
-      </div>
-      <div className="mx-auto mt-10 max-w-6xl border-t border-[#2f2f36] px-5 pt-6 text-xs text-dim">
-        © {new Date().getFullYear()} UpsNeyro. Open-source diploma project.
       </div>
     </footer>
   );
