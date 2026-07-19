@@ -166,3 +166,68 @@
   25%, 95% { opacity: 1; transform: translateY(0); }
   100% { opacity: 0; transform: translateY(-6px); }
 }
+
+/* Interactive hero words */
+.hero-word {
+  position: relative;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.3s ease, letter-spacing 0.3s ease;
+}
+.hero-word::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0.06em;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  opacity: 0.35;
+}
+.hero-word:hover::after { transform: scaleX(1); }
+.hero-word:hover { letter-spacing: 0.005em; }
+.hero-word:active { transform: translateY(1px) scale(0.985); }
+
+/* Annotation — тонкий shimmer при ховере */
+.hero-annot {
+  transition: color 0.4s ease;
+}
+.hero-annot:hover { color: var(--ink); }
+.hero-annot > span:first-child {
+  background-image: linear-gradient(90deg, var(--ember), var(--ink) 60%);
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: background-position 0.7s ease;
+}
+.hero-annot:hover > span:first-child { background-position: 0 0; }
+
+/* Key list hover */
+.key-list li {
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s ease;
+}
+.key-list li:hover {
+  transform: translateX(4px);
+  border-color: var(--ink);
+}
+.key-list li .num {
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.3s ease;
+  display: inline-block;
+}
+.key-list li:hover .num {
+  transform: translateX(-2px) rotate(-4deg);
+}
+.key-list li > span:last-child {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-size: 0 1px;
+  background-position: 0 100%;
+  transition: background-size 0.5s ease, color 0.3s ease;
+  padding-bottom: 1px;
+}
+.key-list li:hover > span:last-child {
+  background-size: 100% 1px;
+  color: var(--ink);
+}
+
