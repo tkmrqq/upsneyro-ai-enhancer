@@ -177,19 +177,15 @@ function Hero() {
           <div className="eyebrow hidden md:block">Open-source · Diploma project</div>
         </div>
 
-        {/* headline */}
-        <h1 className="font-display text-[13vw] leading-[0.92] tracking-tight md:text-[104px]">
-          Улучшение видео <em className="italic text-ember">нейросетями</em>,
-          <br />
-          локально — на вашем&nbsp;ПК.
-        </h1>
+        {/* headline — интерактивный, потыкай слова */}
+        <InteractiveHeadline />
 
         {/* dek + CTA */}
         <div className="mt-14 grid grid-cols-1 gap-10 border-t border-rule pt-10 md:grid-cols-12">
           <div className="md:col-span-5">
             <div className="eyebrow mb-3">Аннотация</div>
-            <p className="font-display text-2xl leading-snug md:text-[28px]">
-              UpsNeyro — десктопное приложение для Windows: увеличение разрешения,
+            <p className="font-display text-2xl leading-snug md:text-[28px] hero-annot">
+              <span>UpsNeyro</span> — десктопное приложение для Windows: увеличение разрешения,
               восстановление деталей и цветокоррекция. Без облака, без загрузки
               видео в интернет — вся обработка проходит на вашей машине.
             </p>
@@ -197,17 +193,17 @@ function Hero() {
 
           <div className="md:col-span-4 md:col-start-7">
             <div className="eyebrow mb-3">Ключевое</div>
-            <ul className="space-y-3 text-[15px] text-soft">
+            <ul className="space-y-3 text-[15px] text-soft key-list">
               <li className="flex gap-3 border-b border-rule pb-3">
-                <span className="font-mono text-xs text-ember">01</span>
+                <span className="font-mono text-xs text-ember num">01</span>
                 <span>Три модели Real-ESRGAN: Fast, Balanced, Quality.</span>
               </li>
               <li className="flex gap-3 border-b border-rule pb-3">
-                <span className="font-mono text-xs text-ember">02</span>
+                <span className="font-mono text-xs text-ember num">02</span>
                 <span>Быстрое превью кадра до полного экспорта.</span>
               </li>
               <li className="flex gap-3">
-                <span className="font-mono text-xs text-ember">03</span>
+                <span className="font-mono text-xs text-ember num">03</span>
                 <span>Очередь пакетной обработки, фильтры, ETA.</span>
               </li>
             </ul>
