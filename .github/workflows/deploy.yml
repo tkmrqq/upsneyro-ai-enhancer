@@ -1,24 +1,12 @@
-name: Deploy Vue with Bun to GitHub Pages
+name: Debug Build Directory
 
 on:
   push:
     branches:
       - main
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
-
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  debug:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -35,14 +23,9 @@ jobs:
       - name: Build project
         run: bun run build
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './.lovable/dist' # Жестко указываем секретную папку Lovable
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Look for build output
+        run: |
+          echo "=== Что находится в корне после сборки? ==="
+          ls -la
+          echo "=== Ищем все папки с именем dist или build ==="
+          find . -type d \( -name "dist" -o -name "build" \) -not -path "*/node_modules/*"
