@@ -18,7 +18,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps: deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -33,7 +33,7 @@ jobs:
         run: bun install
 
       - name: Build project
-        run: bun run build # Создаст папку сборки (обычно dist)
+        run: bun run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -41,7 +41,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist' # Проверьте, что Lovable собирает именно в /dist (иногда в /build)
+          path: './dist'
 
       - name: Deploy to GitHub Pages
         id: deployment
