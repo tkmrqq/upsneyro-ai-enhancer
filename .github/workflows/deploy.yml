@@ -1,24 +1,12 @@
-name: Deploy Vue with Bun to GitHub Pages
+name: Check Output Folder Structure
 
 on:
   push:
     branches:
       - main
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
-
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -35,14 +23,7 @@ jobs:
       - name: Build project
         run: bun run build
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './.output/public' # Указываем точную скомпилированную папку
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: List Output Files
+        run: |
+          echo "=== Проверяем, что внутри папки .output ==="
+          ls -R .output
