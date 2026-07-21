@@ -35,13 +35,32 @@ jobs:
       - name: Build project
         run: bun run build
 
+      - name: Detect output directory
+        id: detect
+        run: |
+          if [ -d "dist" ]; then
+            echo "dir=dist" >> $GITHUB_OUTPUT
+          elif [ -d ".lovable/dist" ]; then
+            echo "dir=.lovable/dist" >> $GITHUB_OUTPUT
+          elif [ -d "build" ]; then
+            echo "dir=build" >> $GITHUB_OUTPUT
+          else
+            echo "Поиск папки сборки..."
+            FOUND_DIR=$(find . -type d -name "dist" -not -path "*/node_modules/*" -print -quit)
+            if [ -n "$FOUND_DIR" ]; then
+              echo "dir=${FOUND_DIR#./}" >> $GITHUB_OUTPUT
+            else
+              echo "dir=." >> $GITHUB_OUTPUT
+            fi
+          fi
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: ${{ steps.detect.outputs.dir }}
 
       - name: Deploy to GitHub Pages
         id: deployment
